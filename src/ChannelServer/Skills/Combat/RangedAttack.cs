@@ -76,7 +76,7 @@ namespace Aura.Channel.Skills.Combat
 			Send.SkillPrepare(creature, skill.Info.Id, skill.GetCastTime());
 
 			// Lock running if not elf
-			if (!creature.IsElf)
+			if (!creature.CanRunWithRanged)
 				creature.Lock(Locks.Run);
 
 			return true;
@@ -91,14 +91,18 @@ namespace Aura.Channel.Skills.Combat
 		/// <returns></returns>
 		public bool Ready(Creature creature, Skill skill, Packet packet)
 		{
-			creature.Temp.FireArrow = creature.Region.GetProps(a => a.Info.Id == 203 && a.GetPosition().InRange(creature.GetPosition(), 500)).Count > 0;
+			// Light arrows (!) on fire if there's a campfire nearby
+			if (creature.RightHand != null && creature.RightHand.HasTag("/bow/"))
+				creature.Temp.FireArrow = creature.Region.GetProps(a => a.Info.Id == 203 && a.GetPosition().InRange(creature.GetPosition(), 500)).Count > 0;
+
+			// Add fire arrow effect to arrow
 			if (creature.Temp.FireArrow)
 				Send.Effect(creature, Effect.FireArrow, true);
 
 			Send.SkillReady(creature, skill.Info.Id);
 
-			// Lock running if not elf
-			if (!creature.IsElf)
+			// Lock running
+			if (!creature.CanRunWithRanged)
 				creature.Lock(Locks.Run);
 
 			return true;

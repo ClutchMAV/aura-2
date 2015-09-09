@@ -32,6 +32,9 @@ namespace Aura.Channel.World.Entities
 		private const float MinWeight = 0.7f, MaxWeight = 1.5f;
 		private const float MaxFoodStatBonus = 100;
 
+		private byte _inquiryId;
+		private Dictionary<byte, Action<Creature>> _inquiryCallbacks;
+
 		public override DataType DataType { get { return DataType.Creature; } }
 
 		// General
@@ -350,6 +353,12 @@ namespace Aura.Channel.World.Entities
 		/// Returns true if creature is currently knocked down.
 		/// </summary>
 		public bool IsKnockedDown { get { return (DateTime.Now < this.KnockDownTime); } }
+
+		/// <summary>
+		/// Returns true if creature is able to run while having ranged loaded,
+		/// e.g. because its and elf or has a crossbow equipped.
+		/// </summary>
+		public bool CanRunWithRanged { get { return (this.IsElf || (this.RightHand != null && this.RightHand.HasTag("/crossbow/"))); } }
 
 		// Stats
 		// ------------------------------------------------------------------
@@ -768,6 +777,8 @@ namespace Aura.Channel.World.Entities
 			this.Party = Party.CreateDummy(this);
 
 			this.Vars = new ScriptVariables();
+
+			_inquiryCallbacks = new Dictionary<byte, Action<Creature>>();
 		}
 
 		/// <summary>
@@ -2099,6 +2110,47 @@ namespace Aura.Channel.World.Entities
 		public bool Can(Locks locks)
 		{
 			return ((this.Locks & locks) == 0);
+		}
+
+		/// <summary>
+		/// Sends a msg box to creature's client, asking a question.
+		/// The callback is executed if the box is answered with OK.
+		/// </summary>
+		/// <param name="callback"></param>
+		/// <param name="format"></param>
+		/// <param name="args"></param>
+		public void Inquiry(Action<Creature> callback, string format, params object[] args)
+		{
+			byte id;
+
+			lock (_inquiryCallbacks)
+			{
+				_inquiryId++;
+				if (_inquiryId == 0)
+					_inquiryId = 1;
+
+				id = _inquiryId;
+
+				_inquiryCallbacks[id] = callback;
+			}
+
+			Send.Inquiry(this, id, format, args);
+		}
+
+		/// <summary>
+		/// Calls inquiry callback for id if there is one.
+		/// </summary>
+		/// <param name="id"></param>
+		public void HandleInquiry(byte id)
+		{
+			Action<Creature> action;
+			lock (_inquiryCallbacks)
+			{
+				if (!_inquiryCallbacks.TryGetValue(id, out action) || action == null)
+					return;
+			}
+
+			action(this);
 		}
 	}
 }
