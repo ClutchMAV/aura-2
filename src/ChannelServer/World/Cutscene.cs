@@ -84,8 +84,8 @@ namespace Aura.Channel.World
 					var actorData = AuraData.ActorDb.Find(actorName);
 					if (actorData == null)
 						Log.Warning("Unknown actor '{0}'.", actorName);
-
-					actor = new NPC(actorData);
+					else
+						actor = new NPC(actorData);
 				}
 				else if (actorName == "me")
 				{
@@ -93,8 +93,7 @@ namespace Aura.Channel.World
 				}
 				else if (actorName == "leader")
 				{
-					//actor = creature.Party.Leader;
-					actor = creature; // tmp
+					actor = creature.Party.Leader;
 				}
 				else if (actorName.StartsWith("player"))
 				{
