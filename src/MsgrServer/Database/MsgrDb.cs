@@ -3,6 +3,8 @@
 
 using Aura.Shared.Database;
 using MySql.Data.MySqlClient;
+using System;
+using System.Collections.Generic;
 
 namespace Aura.Msgr.Database
 {
@@ -58,6 +60,121 @@ namespace Aura.Msgr.Database
 
 					return contact;
 				}
+			}
+		}
+
+		/// <summary>
+		/// Returns all notes for contact.
+		/// </summary>
+		/// <param name="contact"></param>
+		/// <returns></returns>
+		public List<Note> GetNotes(Contact contact)
+		{
+			var result = new List<Note>();
+
+			using (var conn = this.Connection)
+			using (var mc = new MySqlCommand("SELECT * FROM `notes` WHERE `receiver` = @receiver", conn))
+			{
+				mc.Parameters.AddWithValue("@receiver", contact.FullName);
+
+				using (var reader = mc.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						var note = this.ReadNote(reader);
+						if (note == null)
+							continue;
+
+						result.Add(note);
+					}
+				}
+			}
+
+			return result;
+		}
+
+		/// <summary>
+		/// Returns note with given id, or null on error.
+		/// </summary>
+		/// <param name="contact"></param>
+		/// <param name="noteId"></param>
+		/// <returns></returns>
+		public Note GetNote(long noteId)
+		{
+			Note note = null;
+
+			using (var conn = this.Connection)
+			using (var mc = new MySqlCommand("SELECT * FROM `notes` WHERE `noteId` = @noteId", conn))
+			{
+				mc.Parameters.AddWithValue("@noteId", noteId);
+
+				using (var reader = mc.ExecuteReader())
+				{
+					if (reader.Read())
+						note = this.ReadNote(reader);
+				}
+			}
+
+			return note;
+		}
+
+		/// <summary>
+		/// Reads note from reader, returns null on error.
+		/// </summary>
+		/// <param name="reader"></param>
+		/// <returns></returns>
+		private Note ReadNote(MySqlDataReader reader)
+		{
+			var note = new Note();
+
+			note.Id = reader.GetInt64("noteId");
+			note.Sender = reader.GetStringSafe("sender");
+			note.Receiver = reader.GetStringSafe("receiver");
+			note.Message = reader.GetStringSafe("message");
+			note.Time = reader.GetDateTimeSafe("time");
+			note.Read = reader.GetBoolean("read");
+
+			var split = note.Sender.Split('@');
+			if (split.Length != 2)
+				return null;
+
+			note.FromCharacterName = split[0];
+			note.FromServer = split[1];
+
+			return note;
+		}
+
+		/// <summary>
+		/// Sets read flag for given note.
+		/// </summary>
+		/// <param name="noteId"></param>
+		public void SetNoteRead(long noteId)
+		{
+			using (var conn = this.Connection)
+			using (var cmd = new UpdateCommand("UPDATE `notes` SET {0} WHERE `noteId` = @noteId", conn))
+			{
+				cmd.Set("read", true);
+				cmd.AddParameter("@noteId", noteId);
+
+				cmd.Execute();
+			}
+		}
+
+		/// <summary>
+		/// Adds note to database.
+		/// </summary>
+		/// <param name="noteId"></param>
+		public void AddNote(string sender, string receiver, string message)
+		{
+			using (var conn = this.Connection)
+			using (var cmd = new InsertCommand("INSERT INTO `notes` {0}", conn))
+			{
+				cmd.Set("sender", sender);
+				cmd.Set("receiver", receiver);
+				cmd.Set("message", message);
+				cmd.Set("time", DateTime.Now);
+
+				cmd.Execute();
 			}
 		}
 	}
