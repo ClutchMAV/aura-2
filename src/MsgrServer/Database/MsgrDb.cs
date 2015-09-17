@@ -177,49 +177,5 @@ namespace Aura.Msgr.Database
 				cmd.Execute();
 			}
 		}
-
-		/// <summary>
-		/// Deletes note from database.
-		/// </summary>
-		/// <param name="receiver"></param>
-		/// <param name="noteId"></param>
-		public void DeleteNote(string receiver, long noteId)
-		{
-			using (var conn = this.Connection)
-			using (var mc = new MySqlCommand("DELETE FROM `notes` WHERE `receiver` = @receiver AND `noteId` = @noteId", conn))
-			{
-				mc.Parameters.AddWithValue("@receiver", receiver);
-				mc.Parameters.AddWithValue("@noteId", noteId);
-
-				mc.ExecuteNonQuery();
-			}
-		}
-
-		/// <summary>
-		/// Returns first note with an id higher than the given one,
-		/// or null if none exist.
-		/// </summary>
-		/// <param name="receiver"></param>
-		/// <param name="noteId"></param>
-		/// <returns></returns>
-		public Note GetNewNote(string receiver, long noteId)
-		{
-			Note note = null;
-
-			using (var conn = this.Connection)
-			using (var mc = new MySqlCommand("SELECT * FROM `notes` WHERE `receiver` = @receiver AND `noteId` > @noteId ORDER BY `noteId` ASC LIMIT 1", conn))
-			{
-				mc.Parameters.AddWithValue("@receiver", receiver);
-				mc.Parameters.AddWithValue("@noteId", noteId);
-
-				using (var reader = mc.ExecuteReader())
-				{
-					if (reader.Read())
-						note = this.ReadNote(reader);
-				}
-			}
-
-			return note;
-		}
 	}
 }
