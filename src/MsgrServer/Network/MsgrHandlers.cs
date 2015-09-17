@@ -103,13 +103,6 @@ namespace Aura.Msgr.Network
 		/// <summary>
 		/// Sent when opening notes, requests lists of existing notes.
 		/// </summary>
-		/// <remarks>
-		/// When you open your inbox, log out, and log back in, the note
-		/// list will be empty, since the client only requests the notes
-		/// every once in a while, but empties the box on log out.
-		/// This is expected behavior, even though it shouldn't be.
-		/// TODO: Try to fix devCAT's mistakes?
-		/// </remarks>
 		/// <example>
 		/// 001 [0000000000000000] Long   : 0
 		/// </example>
@@ -190,8 +183,6 @@ namespace Aura.Msgr.Network
 			// TODO: The messenger is kinda made for direct database access,
 			//   but doing that with MySQL isn't exactly efficient...
 			//   Maybe we should use a different solution for the msgr?
-			//   On the other hand, we might want to create a web interface,
-			//   in which case MySQL offers more flexibility.
 
 			// TODO: You should be able to send a message to a character that
 			//   has never logged in, so we can't check for contact existence,
@@ -200,55 +191,6 @@ namespace Aura.Msgr.Network
 			MsgrServer.Instance.Database.AddNote(client.Contact.FullName, receiver, message);
 
 			Send.SendNoteR(client);
-		}
-
-		/// <summary>
-		/// Sent when clicking Delete in note inbox.
-		/// </summary>
-		/// <remarks>
-		/// Please tell me you don't let the client tell you which account
-		/// to delete that note from, devCAT...
-		/// </remarks>
-		/// <example>
-		/// 001 [................] String : admin
-		/// 002 [0000000000000007] Long   : 7
-		/// </example>
-		[PacketHandler(Op.Msgr.DeleteNote)]
-		public void DeleteNote(MsgrClient client, Packet packet)
-		{
-			var accountId = packet.GetString();
-			var noteId = packet.GetLong();
-
-			MsgrServer.Instance.Database.DeleteNote(client.Contact.FullName, noteId);
-
-			// Delete doesn't seem to have a response, the note disappears as
-			// soon as you click Delete, the server is only notified.
-		}
-
-		/// <summary>
-		/// Sent regularly, to check for new notes.
-		/// </summary>
-		/// <remarks>
-		/// Is it possible to get multiple new notes at once? The response
-		/// only seems to support one. Although, when you check the inbox
-		/// you would also get the other new ones I suppose.
-		/// 
-		/// The moment this packet is sent is probably also the moment at
-		/// which the client empties the inbox cache, otherwise you
-		/// wouldn't get the new note in the list.
-		/// </remarks>
-		/// <example>
-		/// 001 [0000000000000009] Long   : 9
-		/// </example>
-		[PacketHandler(Op.Msgr.CheckNotes)]
-		public void CheckNotes(MsgrClient client, Packet packet)
-		{
-			// Id of the newest note in inbox
-			var noteId = packet.GetLong();
-
-			var note = MsgrServer.Instance.Database.GetNewNote(client.Contact.FullName, noteId);
-			if (note != null)
-				Send.YouGotNote(client, note);
 		}
 	}
 }
