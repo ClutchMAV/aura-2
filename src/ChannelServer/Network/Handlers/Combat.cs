@@ -108,7 +108,13 @@ namespace Aura.Channel.Network.Handlers
 		public void CombatAttack(ChannelClient client, Packet packet)
 		{
 			var targetEntityId = packet.GetLong();
-			var unkString = packet.GetString();
+
+			var nextType = packet.Peek();
+			Type t = nextType.GetType();
+			if (t == typeof(string))
+			{
+				var unkString = packet.GetString();
+			}
 
 			var creature = client.GetCreatureSafe(packet.Id);
 
