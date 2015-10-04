@@ -572,8 +572,8 @@ namespace Aura.Mabi.Network
 			public const int FriendConfirm = 0xC354;
 			public const int FriendReply = 0xC355;
 			public const int ChatInvite = 0xC356;
-			public const int FriendList = 0xC358;
-			public const int FriendListR = 0xC359;
+			public const int FriendListRequest = 0xC358;
+			public const int FriendListRequestR = 0xC359;
 			public const int FriendBlock = 0xC35A;
 			public const int FriendBlockR = 0xC35B;
 			public const int FriendUnblock = 0xC35C;
@@ -593,8 +593,8 @@ namespace Aura.Mabi.Network
 			public const int GuildChat = 0xC36E;
 			public const int GuildChatR = 0xC36F;
 
-			public const int ChangeOption = 0xC370;
-			public const int ChangeOptionR = 0xC371;
+			public const int ChangeOptions = 0xC370;
+			public const int ChangeOptionsR = 0xC371;
 			public const int FriendOptionChanged = 0xC372;
 			public const int GroupList = 0xC376;
 			public const int SendNote = 0xC37E;

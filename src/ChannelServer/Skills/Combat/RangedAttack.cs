@@ -262,8 +262,13 @@ namespace Aura.Channel.Skills.Combat
 					skill.Train(1); // Try ranged attack.
 
 				// Reduce arrows
+<<<<<<< HEAD
 				if (attacker.Magazine != null && !ChannelServer.Instance.Conf.World.InfiniteArrows && attacker.Magazine.Info.Id != 67220)
 					attacker.Inventory.Decrement(attacker.Magazine);
+=======
+				if (attacker.Magazine != null && !ChannelServer.Instance.Conf.World.InfiniteArrows && !attacker.Magazine.HasTag("/unlimited_arrow/"))
+                    attacker.Inventory.Decrement(attacker.Magazine);
+>>>>>>> xeroplz/gunner_skills_2
 
 				cap.Handle();
 			}
