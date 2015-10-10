@@ -38,6 +38,7 @@ namespace Aura.Channel.World.Dungeons
 			25,    // Ula_DgnHall_Dunbarton_before2 (Math)
 			64,    // Ula_DgnHall_Runda_before (Rundal)
 			44,    // Ula_DgnHall_Tirnanog_before1 (Albey)
+			74,    // Ula_DgnHall_Peaca_before (Peaca)
 			78,    // Ula_DgnHall_Tirnanog_G3_before (Baol)
 			121,   // Ula_hardmode_DgnHall_Ciar_before (Ciar Hard)
 			123,   // Ula_hardmode_DgnHall_Runda_before (Rundal Hard)
