@@ -14,7 +14,7 @@ public class DaolAi : AiScript
 		Doubts("/pc/", "/pet/","/glas/");
 		Doubts("/cow/");
 		Hates("/glas/");
-		Hates("/guardian/","/glas/");
+		Hates("/dullahan/","/glas/");
 		HatesBattleStance();
 		
 		On(AiState.Aggro, AiEvent.DefenseHit, OnDefenseHit);

@@ -11,10 +11,10 @@ public class GlasAi : AiScript
 	{
 		SetAggroRadius(650);
 		
-		Doubts("/pc/", "/pet/","/daol/","/guardian/");
+		Doubts("/pet/","/daol/","/guardian/");
 		Doubts("/cow/");
 		Hates("/guardian/");
-		Hates("/daol/","/guardian/");
+		Hates("/daol/","/dullahan/","/fox/","/glas/");
 		HatesBattleStance();
 		
 		On(AiState.Aggro, AiEvent.DefenseHit, OnDefenseHit);

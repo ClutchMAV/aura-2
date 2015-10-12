@@ -75,6 +75,10 @@ public class DunbartonRegionScript : RegionScript
 	
 	public override void LoadSpawns()
 	{
-		// ...
+		//Square
+		CreateSpawner(race: 11012, amount: 20, region: 14, coordinates: A(41165,43509, 41515,36246, 34789,36089, 34255,41883)); // Gray Wolf
+		CreateSpawner(race: 95, amount: 20, region: 14, coordinates: A(41165,43509, 41515,36246, 34789,36089, 34255,41883)); // Gray Wolf
+		CreateSpawner(race: 6, amount: 15, region: 14, coordinates: A(41960,38463, 38453,38688, 34935,42487, 36235,35925)); // Sheep
+		CreateSpawner(race: 10062, amount: 20, region: 14, coordinates: A(44190,34166, 34100,40460, 32125,35773, 41615,46367)); // Dullah
 	}
 }

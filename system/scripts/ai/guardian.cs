@@ -4,7 +4,7 @@
 //  AI for wolves.
 //---------------------------------------------------------------------------
 
-[AiScript("guardian")]
+[AiScript("dullahan")]
 public class GuardianAi : AiScript
 {
 	public GuardianAi()

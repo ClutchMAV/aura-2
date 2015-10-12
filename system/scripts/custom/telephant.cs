@@ -10,13 +10,33 @@ public class _TelephantBaseScript : NpcScript
 {
 	public override void Load()
 	{
-		SetName("Telephant");
-		SetRace(550001);
+        SetName("<mini>WARPER</mini>Ninny");
+        SetRace(10001);
+        SetBody(height: 0.1f, weight: 1.0f, upper: 1.0f, lower: 1.0f);
+        SetFace(skinColor: 23, eyeType: 27, eyeColor: 76, mouthType: 2);
+        SetStand("human/female/anim/female_stand_npc_emain_rua_02");
+
+        EquipItem(Pocket.Face, 3936, 0x10000074, 0x10000074, 0x1000000F);
+        EquipItem(Pocket.Hair, 9200, 0x10000077, 0x10000074, 0x1000000F);
+        EquipItem(Pocket.Armor, 15935, 0x10000015, 0x1000000F, 0x1000000F);
+        EquipItem(Pocket.Shoe, 17267, 0x1000000F, 0x10000074, 0x1000000F);
+        EquipItem(Pocket.Head, 18394, 0x10000000, 0x10000074, 0x1000000F);
+        EquipItem(Pocket.Glove, 16142, 0x1000000F, 0x10000015, 0x1000000F);
+        EquipItem(Pocket.Robe, 19138, 0x1000000F, 0x10000074, 0x1000000F);
+
+        AddPhrase("Wheres bubby?");
+        AddPhrase("YOU CHEATER!!");
+        AddPhrase("La la la la.");
+        AddPhrase("Better run before I pop a cap up your ass. >_>");
+        AddPhrase("Don't be talking back to me Shanelle.");
+        AddPhrase("Bitch, LOL.");
+        AddPhrase("I love my Cammy and Shanri <3");
+        AddPhrase("*Sobs*");
 	}
 
 	protected override async Task Talk()
 	{
-		Msg("Hello! I am Telephant, and I'm here to carry you all over the world!");
+		Msg("Ninny Binny, SAY IT BITCH.");
 
 	L_Selection:
 		Msg("Where would you like to go?",
@@ -60,7 +80,7 @@ public class _TelephantBaseScript : NpcScript
 				list.Add(Button("Quilla Base Camp", "@quilla"));
 				list.Add(Button("Filia", "@filia"));
 				list.Add(Button("Vales", "@vales"));
-				list.Add(Button("Cor", "@cor"));
+				list.Add(Button("Africa", "@cor"));
 				list.Add(Button("Calida", "@calida"));
 				break;
 
