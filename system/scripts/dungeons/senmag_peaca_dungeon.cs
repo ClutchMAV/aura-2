@@ -7,22 +7,10 @@
 [DungeonScript("senmag_peaca_dungeon")]
 public class PeacaDungeonScript : DungeonScript
 {
-	public override bool Route(Creature creature, Item item, ref string dungeonName)
-	{
-		dungeonName = "senmag_peaca_dungeon";
-		return true;
-	}
-
-	public override void OnCreation(Dungeon dungeon)
-	{
-	}
-
 	public override void OnBoss(Dungeon dungeon)
 	{
 		dungeon.AddBoss(30004, 1); // Giant Spider
 		dungeon.AddBoss(30003, 6); // Red Spider
-
-		dungeon.PlayCutscene("bossroom_peaca_masterlich");
 	}
 
 	public override void OnCleared(Dungeon dungeon)
@@ -71,12 +59,6 @@ public class PeacaDungeonScript : DungeonScript
 			drops.Add(new DropData(itemId: 63118, chance: 1, amount: 1, expires: 480)); // Alby Int 4
 			drops.Add(new DropData(itemId: 63101, chance: 2, amount: 1, expires: 480)); // Alby Basic
 			drops.Add(new DropData(itemId: 40002, chance: 1, amount: 1, color1: 0x000000, durability: 0)); // Wooden Blade (black)
-
-			if (IsEnabled("AlbyAdvanced"))
-			{
-				drops.Add(new DropData(itemId: 63160, chance: 1, amount: 1, expires: 360)); // Alby Advanced 3-person Fomor Pass
-				drops.Add(new DropData(itemId: 63161, chance: 1, amount: 1, expires: 360)); // Alby Advanced Fomor Pass
-			}
 		}
 
 		return Item.GetRandomDrop(rnd, drops);

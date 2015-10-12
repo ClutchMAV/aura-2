@@ -2202,7 +2202,7 @@
 //---------------------------------------------------------------------------
 
 // Peaca Dungeon - unofficial monsters
-{ name: "senmag_peaca_dungeon", style: 700000, baseSeed: 400000000, lobby: 75, exit: "Ula_Dgnhall_Peaca_before/_Ula_Dgnhall_Peaca_before/DG_SenmagBefore_Outer_Spawn", stairs: 31052, saveStatue: 31063, lastStatue: 31064, door: 31059, bossDoor: 31061, bossExitDoor: 31062, floors: [
+{ name: "senmag_peaca_dungeon", style: 700000, baseSeed: 400000000, lobby: 75, exit: "Ula_Dgnhall_Peaca_before/_Ula_Dgnhall_Peaca_before/DG_SenmagBefore_Outer_Spawn", stairs: 31052, saveStatue: 31063, chest: 31065, lockedChest: 31066, lastStatue: 31064, door: 31059, bossDoor: 31061, bossExitDoor: 31062, floors: [
 	// Floor 1
 	{ width: 7, height: 7, critPathMin: 35, critPathMax: 49, branch: 20, coverage: 70, hasBoss: false, color: [0x00FFFFFF,0x00FFFFFF,0x00FFFFFF], lightColor: [0x00FFFFFF,0x00FFFFFF,0x00A3A0B1], sections: [
 		{ min: 2, max: 3, puzzles: [
@@ -2245,7 +2245,6 @@
 			{ script: "eventprop_fountain" },
 		]},
 	]},
-	
 	// Floor 2
 	{ width: 8, height: 8, critPathMin: 48, critPathMax: 64, branch: 20, coverage: 70, hasBoss: false, color: [0x00FFFFFF,0x00FFFFFF,0x00FFFFFF], lightColor: [0x00FFFFFF,0x00FFFFFF,0x00A3A0B1], sections: [
 		{ min: 2, max: 3, puzzles: [
@@ -2295,7 +2294,6 @@
 			{ script: "switchdoor_switchmonster", groups: [ [{ raceId: 30003, amount: 6}] ] },
 		]},
 	]},
-	
 	// Floor 3
 	{ width: 7, height: 7, critPathMin: 35, critPathMax: 49, branch: 20, coverage: 70, hasBoss: true, color: [0x00FFFFFF,0x00FFFFFF,0x00FFFFFF], lightColor: [0x00FFFFFF,0x00FFFFFF,0x00A3A0B1], sections: [
 		{ min: 2, max: 3, puzzles: [
