@@ -4,10 +4,10 @@
 //  AI for wolves.
 //---------------------------------------------------------------------------
 
-[AiScript("guardian")]
-public class GuardianAi : AiScript
+[AiScript("dullahan")]
+public class dullahanai : AiScript
 {
-	public GuardianAi()
+	public dullahanai()
 	{
 		SetAggroRadius(650);
 		
