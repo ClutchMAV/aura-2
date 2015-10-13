@@ -4,85 +4,42 @@
 //  AI for wolves.
 //---------------------------------------------------------------------------
 
-[AiScript("wolf")]
 public class WolfAi : AiScript
 {
 	public WolfAi()
 	{
-		SetAggroRadius(650);
-		
-		Doubts("/pc/", "/pet/");
-		Doubts("/cow/");
-		Hates("/sheep/");
-		Hates("/dog/");
-		HatesBattleStance();
-		
-		On(AiState.Aggro, AiEvent.DefenseHit, OnDefenseHit);
+		SetAggroType(AggroType.CarefulAggressive);
+		Hates("/pc/", "/pet/");
+		Hates("/cattle/");
 	}
 
 	protected override IEnumerable Idle()
 	{
 		Do(Wander());
-		Do(Wait(2000, 5000));
+		Do(Wait(3000, 10000));
 	}
 	
 	protected override IEnumerable Alert()
 	{
-		if(Random() < 50)
+		// 30% chance to circle
+		// 10% chance to active defense
+		// 10% chance to active counter
+		switch(Random(10))
 		{
-			if(Random() < 50)
-			{
-				Do(PrepareSkill(SkillId.Defense));
-				Do(Circle(500, 1000, 5000));
-				Do(CancelSkill());
-			}
-			else
-			{
-				Do(PrepareSkill(SkillId.Counterattack));
-				Do(Wait(5000));
-				Do(CancelSkill());
-			}
+			case 0:
+			case 1:  
+			case 2:  Do(Circle(400, 1000, 5000)); break;
+			case 8:  Do(Say("Defense!")); break;
+			case 9:  Do(Say("Counter!")); break;
+			default: break;
 		}
-		else
-		{
-			Do(Circle(400, 1000, 5000));
-			Do(Wait(1000, 5000));
-		}
+			
+		Do(Wait(1000, 5000));
 	}
 	
 	protected override IEnumerable Aggro()
 	{
-		if(Random() < 50)
-		{
-			var rndnum = Random();
-			if(rndnum < 20) // 20%
-			{
-				Do(PrepareSkill(SkillId.Defense));
-				Do(Circle(500, 1000, 5000));
-				Do(CancelSkill());
-			}
-			else if(rndnum < 60) // 40%
-			{
-				Do(PrepareSkill(SkillId.Smash));
-				Do(Attack(1, 5000));
-				Do(Wait(3000, 8000));
-			}
-			else // 40%
-			{
-				Do(PrepareSkill(SkillId.Counterattack));
-				Do(Wait(5000));
-				Do(CancelSkill());
-			}
-		}
-		else
-		{
-			Do(Attack(3, 5000));
-		}
-	}
-	
-	private IEnumerable OnDefenseHit()
-	{
-		Do(Attack());
-		Do(Wait(3000));
+		Do(Attack(3));
+		Do(Wait(3000, 8000));
 	}
 }

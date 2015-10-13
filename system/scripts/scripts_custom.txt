@@ -1,7 +1,22 @@
 // Aura
 // Script list file
-//
-// All scripts listed here will be loaded.
+// 
+// Example of loading an additional custom NPC.
 //---------------------------------------------------------------------------
 
-include "/user/scripts/scripts_custom.txt"
+event/santa.cs
+event/quest_santa.cs
+custom/Bwii.cs
+custom/Cammy.cs
+custom/CustomShadowMisson.cs
+custom/Maze.cs
+custom/Momo.cs
+custom/MomoDyes.cs
+custom/Niny.cs
+custom/oriental_town.cs
+custom/telephant.cs
+custom/beautyshop_carl.cs
+custom/beautyshop_trixie.cs
+custom/beautyshop_styles.cs
+custom/beautyshop_minty.cs
+custom/beautyshop_jessica.cs
